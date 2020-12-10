@@ -23,8 +23,6 @@ import lombok.experimental.Accessors;
 @ApiModel(value="Slide对象", description="切片表")
 public class Slide implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @ApiModelProperty(value = "切片id")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;

@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @ApiModel(value="User对象", description="用户表")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户id")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
