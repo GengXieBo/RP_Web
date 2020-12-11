@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="20daa634-3c42-45db-9383-5dc2bd8841bb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpweb/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/rpweb/src/main/resources/templates/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpweb/src/main/java/com/huaiguang/login_main/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rpweb/src/main/java/com/huaiguang/login_main/MainController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +37,7 @@
       <option name="presentableId" value="Default" />
       <updated>1607590823046</updated>
       <workItem from="1607590825282" duration="1060000" />
-      <workItem from="1607653347504" duration="19000" />
+      <workItem from="1607653347504" duration="271000" />
     </task>
     <servers />
   </component>
