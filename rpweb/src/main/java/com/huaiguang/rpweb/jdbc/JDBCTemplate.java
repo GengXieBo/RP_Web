@@ -2,6 +2,8 @@ package com.huaiguang.rpweb.jdbc;
 
 import jdk.nashorn.internal.scripts.JD;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -11,7 +13,21 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public abstract class JDBCTemplate<T> {
+
+    public static Connection conn;
+
+    public Connection getConn() throws SQLException {
+        if(conn!=null)
+            return conn;
+        else
+        {
+            conn = DriverManager.getConnection(this.JDBC_URL, this.JDBC_USER, this.JDBC_PASSWORD);
+            return conn;
+        }
+    }
+
     private String JDBC_URL;
     private String JDBC_USER;
     private String JDBC_PASSWORD;

@@ -19,15 +19,18 @@ public class UserService {
         return list;
     }
 
+    public User queryByUsername(String username) throws SQLException{
+        String sql = "SELECT * FROM user where username='"+username +"'";
+        List list = userJDBC.query(sql);
+        System.out.println(list);
+        if(list.size()==0) return null;
+        return (User) list.get(0);
+    }
+
     public User queryById(String id) throws SQLException{
         String sql = "SELECT * FROM user where id='"+id +"'";
         List list = userJDBC.query(sql);
-//        for(int i=0; i<list.size(); i++){
-//            User user =  (User)list.get(i);
-//            System.out.print(user.getId()+" ");
-//            System.out.print(user.getUsername()+" ");
-//            System.out.println(user.getPassword());
-//        }
+
         return (User) list.get(0);
 
     }
