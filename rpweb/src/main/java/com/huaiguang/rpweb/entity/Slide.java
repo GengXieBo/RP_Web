@@ -36,5 +36,8 @@ public class Slide implements Serializable {
     @ApiModelProperty(value = "计算结果地址")
     private String result;
 
+    @ApiModelProperty(value = "计算标志(0:未计算, 1:正在计算, 2:已计算完)")
+    private String flag;
+
 
 }
