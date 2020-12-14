@@ -7,6 +7,7 @@ import com.huaiguang.rpweb.jdbc.UserJDBC;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 public class SlideService {
 
@@ -21,7 +22,25 @@ public class SlideService {
         return list;
     }
 
-    public void queryByUserid(String userid) {
+    public void insertSlide(String userid, String slidename, String path, String flag) throws SQLException {
+        String sql = "INSERT INTO slide (id, userid, path, result ,flag) VALUES (?, ?, ?, ?, ?)";
+        Slide slide = new Slide();
+        String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        slide.setId(uuid);
+        slide.setUserid(userid);
+        slide.setPath(path+"\\"+slidename);
+        slide.setResult(path+"\\"+slidename.substring(slidename.lastIndexOf('.')+1)+"\\");
+        slide.setFlag(flag);
+        slideJDBC.insert(sql, slide);
+    }
 
+    public void updateSlide(String slideid, String flag) throws SQLException {
+        String sql = "UPDATE slide SET flag=? WHERE id=?";
+        Slide slide = new Slide();
+
+        slide.setId(slideid);
+        slide.setFlag(flag);
+
+        slideJDBC.updateById(sql, slide);
     }
 }

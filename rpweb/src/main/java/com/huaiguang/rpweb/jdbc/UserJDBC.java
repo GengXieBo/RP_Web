@@ -33,17 +33,8 @@ public class UserJDBC extends JDBCTemplate<User> {
     }
 
     @Override
-    public void updateTrans(User user, PreparedStatement ps, int num) throws SQLException {
-//        if(num==1){
-//            ps.setObject(1, user.getUsername());
-//            ps.setObject(2, user.getId());
-//        }else if(num==2){
-//            ps.setObject(1, user.getUsername());
-//            ps.setObject(2, user.getPassword());
-//            ps.setObject(3, user.getId());
-//        }else{
-//            throw new RuntimeException("num error");
-//        }
+    public void updateTrans(User user, PreparedStatement ps) throws SQLException {
+
     }
 
     @Override

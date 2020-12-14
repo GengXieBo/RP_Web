@@ -1,4 +1,4 @@
-package com.example.filedemo.payload;
+package com.huaiguang.rpweb.payload;
 
 
 public class UploadFileResponse {

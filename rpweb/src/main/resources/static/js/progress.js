@@ -1,5 +1,5 @@
-function displayProgress() {
-    var eventSource = new EventSource("http://localhost:8080/progress");
+function start(index) {
+    var eventSource = new EventSource("/main/compute/"+index);
 
     eventSource.addEventListener("message", function(event){
             console.log(event.data);
@@ -27,29 +27,6 @@ function displayProgress() {
         }
     }
 }
-
-function getImage()
-{
-    fetch("http://localhost:8080/image")
-        .then((resp) => resp.arrayBuffer())
-        .then((images) => {
-            //var my_image = document.createElement("img");
-            var img = document.createElement("img")
-            var base64Flag = 'data:image/jpeg;base64,';
-            var imageStr = arrayBufferToBase64(images);
-            img.src = base64Flag + imageStr;
-            document.getElementById("demo").appendChild(img);
-        });
-}
-
-function arrayBufferToBase64(buffer) {
-    var binary = '';
-    var bytes = [].slice.call(new Uint8Array(buffer));
-
-    bytes.forEach((b) => binary += String.fromCharCode(b));
-
-    return window.btoa(binary);
-};
 
 
 

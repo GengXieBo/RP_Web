@@ -4,8 +4,18 @@ server:
 name: lixu
 # mysql数据库连接
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 10000MB
+      max-request-size: 10020MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/rpweb?serverTimezone=GMT%2B8
     username: root
     password: lx123456
+
+file:
+  uploadDir: E:/upload
+

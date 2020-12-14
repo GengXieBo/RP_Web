@@ -1,6 +1,8 @@
-package com.example.filedemo.property;
+package com.huaiguang.rpweb.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+
 
 @ConfigurationProperties(prefix = "file")
 public class FileStorageProperties {

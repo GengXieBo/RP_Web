@@ -14,23 +14,45 @@
             <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
             <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
         </svg>
-        <a class="navbar-brand" th:text="${username}">User name</a>
+        <a class="navbar-brand" th:text="${username}"></a>
     </div>
     <div class="pull-right">
         <div>
-            <a href="/login">logout</a>
+            <a href="/logout">logout</a>
         </div>
     </div>
 </div>
 
 <div class="d-flex flex-row" style="margin-left: 10px">
     <div region="west" class="west" style="width: 300px;">
-        <div class="multiple-upload">
-            <form id="multipleUploadForm" name="multipleUploadForm">
-                <input id="multipleFileUploadInput" type="file" name="files" class="custom-file" multiple required>
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </form>
+        <div class="upload-container">
+            <div class="upload-content">
+                <div class="single-upload">
+                    <h5>Upload Single File</h5>
+                    <form id="singleUploadForm" name="singleUploadForm">
+                        <input id="singleFileUploadInput" type="file" name="file" class="file-input" required />
+                        <button type="submit" class="primary submit-btn">Submit</button>
+                    </form>
+                    <div class="upload-response">
+                        <div id="singleFileUploadError"></div>
+                        <div id="singleFileUploadSuccess"></div>
+                    </div>
+                </div>
+                <div class="multiple-upload">
+                    <h5>Upload Multiple Files</h5>
+                    <form id="multipleUploadForm" name="multipleUploadForm">
+                        <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple required />
+                        <button type="submit" class="primary submit-btn">Submit</button>
+                    </form>
+                    <div class="upload-response">
+                        <div id="multipleFileUploadError"></div>
+                        <div id="multipleFileUploadSuccess"></div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
         <ul class="list-group" style="margin-top: 20px">
             <a href="#" class="list-group-item active" th:text="${slide_list[active_index]}">Dapibu in</a>
             <tr  th:each="user, iter_state : ${slide_list}">
@@ -43,11 +65,14 @@
     <div region="center" class="center flex-fill" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <div class="jumbotron" style="margin-left: 15px;margin-right: 15px">
             <div class="row">
-                <img th:src="${active_index} + '/0'" style="width: 700px;height: 600px">
+                <block th:if="${cal_flag} eq '2'">
+                    <img th:src="${active_index} + '/0'" style="width: 700px;height: 600px">
+                </block>
                 <div style="margin-left: 50px;margin-top: 20px">
                     <h1 th:text="${slide_list[active_index]}"></h1>
-                    <block th:if="${!cal_flag}">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">RnnPredict</a>
+                    <block th:if="${cal_flag} eq '0'">
+<!--                        <a class="btn btn-primary btn-lg" href="#" role="button">RnnPredict</a>-->
+                        <button class="btn btn-primary btn-lg" th:onclick="start([[${active_index}]])">Start</button>
                     </block>
                     <div class="progress" style="margin-top: 20px">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
@@ -55,14 +80,15 @@
                 </div>
             </div>
         </div>
-        <block th:each="rows : ${#numbers.sequence(0,1)}">
+        <block th:if="${cal_flag} eq '2'" th:each="rows : ${#numbers.sequence(0,1)}">
             <div class="row" style="margin-top: 10px;margin-left: 15px">
                 <div class="form-inline">
                     <block th:each="cols: ${#numbers.sequence(1,5)}">
                         <div class="card" style="width: 18rem; margin-left: 10px">
                             <img th:src="${active_index} + '/' + ${rows * 5 + cols}" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title">0.9865</h5>
+                                <h5 class="card-title" th:text="${scores[rows*5+cols-1]}"></h5>
+<!--                                <h5 class="card-title"> 0.93</h5>-->
                             </div>
                         </div>
                     </block>
@@ -71,6 +97,9 @@
         </block>
 
     </div>
+
 </div>
+<script th:src="@{~/js/upload.js}" src="../static/js/upload.js"></script>
+<script th:src="@{~/js/progress.js}" src="../static/js/progress.js"></script>
 </body>
 </html>

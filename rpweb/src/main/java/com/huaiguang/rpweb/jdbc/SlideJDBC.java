@@ -17,11 +17,13 @@ public class SlideJDBC extends JDBCTemplate<Slide> {
         String userid = rs.getString(2);
         String path = rs.getString(3);
         String result = rs.getString(4);
+        String flag = rs.getString(5);
         Slide slide = new Slide();
         slide.setId(id);
         slide.setUserid(userid);
         slide.setPath(path);
         slide.setResult(result);
+        slide.setFlag(flag);
         return slide;
     }
 
@@ -31,11 +33,14 @@ public class SlideJDBC extends JDBCTemplate<Slide> {
         ps.setObject(2, slide.getUserid());
         ps.setObject(3, slide.getPath());
         ps.setObject(4, slide.getResult());
+        ps.setObject(5, slide.getFlag());
     }
 
-    @Override
-    public void updateTrans(Slide slide, PreparedStatement ps, int num) throws SQLException {
 
+    @Override
+    public void updateTrans(Slide slide, PreparedStatement ps) throws SQLException {
+        ps.setObject(1, slide.getFlag());
+        ps.setObject(2, slide.getId());
     }
 
     @Override

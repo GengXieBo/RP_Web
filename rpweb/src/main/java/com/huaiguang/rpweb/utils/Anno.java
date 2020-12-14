@@ -1,4 +1,4 @@
-package com.example.HelloWorld.predict;
+package com.huaiguang.rpweb.utils;
 
 import com.sun.jna.Structure;
 

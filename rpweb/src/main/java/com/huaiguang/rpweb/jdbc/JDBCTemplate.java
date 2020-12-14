@@ -38,18 +38,6 @@ public abstract class JDBCTemplate<T> {
 
     }
 
-//    public T newT() {
-//        T newT;
-//        try{
-//            ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
-//            Class<T> clazz = (Class<T>) pt.getActualTypeArguments()[0];
-//            newT = clazz.newInstance();
-//        }catch(Exception e){
-//            throw  new RuntimeException(e);
-//        }
-//        return newT;
-//    }
-
     public abstract T queryTrans(ResultSet rs) throws SQLException;
 
     public List<T> query(String sql) throws SQLException {
@@ -79,13 +67,13 @@ public abstract class JDBCTemplate<T> {
         return 0;
     }
 
-    public abstract void updateTrans(T t, PreparedStatement ps, int num) throws SQLException;
+    public abstract void updateTrans(T t, PreparedStatement ps) throws SQLException;
 
-    public int updateById(String sql, T t, int num) throws SQLException{
+    public int updateById(String sql, T t) throws SQLException{
         try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
             try (PreparedStatement ps = conn.prepareStatement(
                     sql)) {
-                updateTrans(t, ps, num);
+                updateTrans(t, ps);
                 int n = ps.executeUpdate(); // 1
             }
         }
