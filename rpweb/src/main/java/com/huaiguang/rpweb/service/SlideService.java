@@ -29,7 +29,7 @@ public class SlideService {
         slide.setId(uuid);
         slide.setUserid(userid);
         slide.setPath(path+"\\"+slidename);
-        slide.setResult(path+"\\"+slidename.substring(slidename.lastIndexOf('.')+1)+"\\");
+        slide.setResult(path+"\\"+slidename.substring(0, slidename.lastIndexOf('.'))+"\\");
         slide.setFlag(flag);
         slideJDBC.insert(sql, slide);
     }
