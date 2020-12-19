@@ -1,8 +1,6 @@
 server:
-  port: 8081
+  port: 8080
 
-name: lixu
-# mysql数据库连接
 spring:
   servlet:
     multipart:
@@ -12,10 +10,9 @@ spring:
       max-request-size: 10020MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/rpweb?serverTimezone=GMT%2B8
-    username: root
-    password: lx123456
+    url: jdbc:mysql://huaiguangcsh.f3322.net:2006/rpweb?serverTimezone=GMT%2B8
+    username: gxb
+    password: 1181895140
 
 file:
-  uploadDir: E:/upload
-
+  upload-dir: E:/upload

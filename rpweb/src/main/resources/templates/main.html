@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar-inverse navbar-fixed-top">
     <div class="left-pill">
         <svg width="36px" height="36px" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
@@ -54,19 +54,24 @@
 
 
         <ul class="list-group" style="margin-top: 20px">
-            <a href="#" class="list-group-item active" th:text="${slide_list[active_index]}">Dapibu in</a>
-            <tr  th:each="user, iter_state : ${slide_list}">
-                <block th:if="${iter_state.index != active_index}">
-                    <a th:href="'/main/'+@{${iter_state.index}}" class="list-group-item" th:text="${user}"></a>
+            <tr  th:each="slide_name, slide_state : ${slide_list}">
+                <block th:if="${slide_state.index != active_index}">
+                    <a href="#" th:id="${slide_state.index}" class="list-group-item"
+                       th:text="${slide_name}" th:onclick="slide_click([[${slide_state.index}]])"></a>
+                </block>
+                <block th:unless="${slide_state.index != active_index}">
+                    <a href="#" th:id="${slide_state.index}" class="list-group-item active"
+                       th:text="${slide_name}" th:onclick="slide_click([[${slide_state.index}]])"></a>
                 </block>
             </tr>
         </ul>
     </div>
+
     <div region="center" class="center flex-fill" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <div class="jumbotron" style="margin-left: 15px;margin-right: 15px">
             <div class="row">
                 <block th:if="${cal_flag} eq '2'">
-                    <img th:src="${active_index} + '/0'" style="width: 700px;height: 600px">
+                    <img th:id="slide_thumbnail_id" th:src="${active_index} + '/0'" style="width: 700px;height: 600px">
                 </block>
                 <div style="margin-left: 50px;margin-top: 20px">
                     <h1 th:text="${slide_list[active_index]}"></h1>
@@ -85,7 +90,7 @@
                 <div class="form-inline">
                     <block th:each="cols: ${#numbers.sequence(1,5)}">
                         <div class="card" style="width: 18rem; margin-left: 10px">
-                            <img th:src="${active_index} + '/' + ${rows * 5 + cols}" class="card-img-top">
+                            <img th:id="'slide_patch_' + ${rows * 5 + cols}" th:src="${active_index} + '/' + ${rows * 5 + cols}" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${scores[rows*5+cols-1]}"></h5>
 <!--                                <h5 class="card-title"> 0.93</h5>-->
@@ -97,9 +102,38 @@
         </block>
 
     </div>
-
 </div>
 <script th:src="@{~/js/upload.js}" src="../static/js/upload.js"></script>
 <script th:src="@{~/js/progress.js}" src="../static/js/progress.js"></script>
+
+<script th:line="javascript">
+
+    var js_active_slide = [[${active_index}]];
+
+    function slide_click(slide_id) {
+        var slide_item = document.getElementById(slide_id);
+        slide_item.classList.add("active")
+
+        var active_slide_item = document.getElementById(js_active_slide);
+        active_slide_item.classList.remove("active")
+        js_active_slide = slide_id;
+
+        var slide_thumbnail = document.getElementById("slide_thumbnail_id")
+        slide_thumbnail.src = "/main/"+js_active_slide+"/0";
+
+        var rows = 2;
+        var cols = 5;
+        for (var row = 0; i < rows ; row++)
+        {
+            for(var col = 1; col <= cols; col++)
+            {
+                var slide_patch = document.getElementById("slide_patch_" + (row * cols + col))
+                slide_patch.src = "/main/"+js_active_slide+"/" + (row * cols + col);
+            }
+        }
+
+    }
+</script>
+
 </body>
 </html>

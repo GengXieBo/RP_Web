@@ -40,7 +40,7 @@ public class UserController {
             if (user.getPassword().equals(password)) {
                 req.getSession().setAttribute("userid", user.getId());
                 //System.out.println(user.getId());
-                resp.sendRedirect("/main/0");
+                resp.sendRedirect("/main");
             }
         }
 

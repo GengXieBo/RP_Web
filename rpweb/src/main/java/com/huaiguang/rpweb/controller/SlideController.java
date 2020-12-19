@@ -44,6 +44,7 @@ public class SlideController {
     public static double progress = 0;
 
     public static int time_past = 0;
+    private static int active_slide_index = 0;
 
     @GetMapping(value = "/main/compute/{index}")
     public String calucluteSlide(@PathVariable("index") String index, Model model, HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
@@ -165,8 +166,8 @@ public class SlideController {
     }
 
 
-    @RequestMapping(value = "/main/{index}")
-    public String main(@PathVariable("index") String index, Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+    @RequestMapping(value = "/main")
+    public String main(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
         String userid = (String)req.getSession().getAttribute("userid");
         if(userid==null)return "login";
 
@@ -181,12 +182,11 @@ public class SlideController {
         if(slides.size()==0){
             slides.add("slide: None");
         }
-        int active_index = Integer.valueOf(index);
 
         //获取指定切片,如果数据库中不包含切片，则随机生成一个假切片
         Slide slide;
-        if(active_index<list.size()) {
-            slide = list.get(active_index);
+        if(active_slide_index < list.size()) {
+            slide = list.get(active_slide_index);
         }
         else{
             slide = new Slide();
@@ -222,7 +222,7 @@ public class SlideController {
 
         UserService userService = new UserService();
         User user = userService.queryById(userid);
-        model.addAttribute("active_index", active_index);
+        model.addAttribute("active_index", active_slide_index);
         model.addAttribute("slide_list", slides);
         model.addAttribute("username", user.getUsername());
         model.addAttribute("scores", scores);

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class JDBCConfig {
 
     @Value("${spring.datasource.url}")
-    private String JDBC_URL;
+    private String JDBC_URL ;
 
     @Value("${spring.datasource.username}")
     private String JDBC_USER;
