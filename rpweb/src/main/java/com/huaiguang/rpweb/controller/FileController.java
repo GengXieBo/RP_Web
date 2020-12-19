@@ -41,7 +41,7 @@ public class FileController {
                 .toUriString();
         SlideService slideService = new SlideService();
         //未计算为0
-        slideService.insertSlide(userid, fileName, path, "0");
+        slideService.insertSlide(userid, fileName, path, "0", "0");
         return new UploadFileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());
     }

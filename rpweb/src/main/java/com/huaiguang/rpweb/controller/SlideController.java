@@ -65,10 +65,10 @@ public class SlideController {
         // CharacterEncoding 必须指定为 UTF-8
         resp.setCharacterEncoding("UTF-8");
         //计算中设为1
-        slideService.updateSlide(slide.getId(), "1");
+        slideService.updateSlide(slide.getId(), "1", "0");
         computeSlide(req, resp, slidepath, savepath);
         //计算完设为2
-        slideService.updateSlide(slide.getId(), "2");
+        slideService.updateSlide(slide.getId(), "2", String.valueOf(score));
 
         return "main";
     }
@@ -175,12 +175,15 @@ public class SlideController {
         List<Slide> list = slideService.queryAll(userid);
 
         List<String> slides = new ArrayList<>();
+        List<String> flags = new ArrayList<>();
         for(int i=0; i<list.size(); i++){
             slides.add("slide: "+ list.get(i).getPath());
+            flags.add(list.get(i).getFlag());
         }
 
         if(slides.size()==0){
             slides.add("slide: None");
+            flags.add("0");
         }
 
         //获取指定切片,如果数据库中不包含切片，则随机生成一个假切片
@@ -228,7 +231,7 @@ public class SlideController {
         model.addAttribute("scores", scores);
         //if caculated
 
-        model.addAttribute("cal_flag", slide.getFlag());
+        model.addAttribute("flag_list", flags);
 
         return "main";
     }
@@ -270,6 +273,7 @@ public class SlideController {
 
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
+        model.addAttribute("cal_flag", slide.getFlag());
         return new ResponseEntity<>(slide_data, headers, HttpStatus.OK);
     }
 }

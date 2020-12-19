@@ -34,13 +34,15 @@ public class SlideJDBC extends JDBCTemplate<Slide> {
         ps.setObject(3, slide.getPath());
         ps.setObject(4, slide.getResult());
         ps.setObject(5, slide.getFlag());
+        ps.setObject(6, slide.getScore());
     }
 
 
     @Override
     public void updateTrans(Slide slide, PreparedStatement ps) throws SQLException {
         ps.setObject(1, slide.getFlag());
-        ps.setObject(2, slide.getId());
+        ps.setObject(2, slide.getScore());
+        ps.setObject(3, slide.getId());
     }
 
     @Override

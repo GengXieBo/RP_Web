@@ -3,6 +3,8 @@ package com.huaiguang.rpweb.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,5 +41,10 @@ public class Slide implements Serializable {
     @ApiModelProperty(value = "计算标志(0:未计算, 1:正在计算, 2:已计算完)")
     private String flag;
 
+    @ApiModelProperty(value = "切片得分")
+    private String score;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 
 }

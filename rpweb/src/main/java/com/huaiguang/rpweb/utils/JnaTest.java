@@ -39,11 +39,11 @@ public class JnaTest {
     };
 
     public static void getHandle() {
-        System.setProperty("jna.library.path", "D:\\IDEAProjects\\RP_Web\\rpweb\\src\\main\\resources\\dll");
-        RnnLibrary.INSTANCE.setAdditionalPath("D:\\IDEAProjects\\RP_Web\\rpweb\\src\\main\\resources\\dll");
+        System.setProperty("jna.library.path", "E:\\MrHan\\Project\\Java\\RP_Web\\rpweb\\src\\main\\resources\\dll");
+        RnnLibrary.INSTANCE.setAdditionalPath("E:\\MrHan\\Project\\Java\\RP_Web\\rpweb\\src\\main\\resources\\dll");
         RnnLibrary.INSTANCE.setCudaVisibleDevices("0");
         System.setProperty("jna.debug_load", "true");
-        pointer = RnnLibrary.INSTANCE.initializeHandleJava("D:\\IDEAProjects\\RP_Web\\rpweb\\src\\main\\resources\\dll\\config.ini");
+        pointer = RnnLibrary.INSTANCE.initializeHandleJava("E:\\MrHan\\Project\\Java\\RP_Web\\rpweb\\src\\main\\resources\\dll\\config.ini");
     }
 
     public static double slideProcess(int recom, String slide_path, String save_path) {

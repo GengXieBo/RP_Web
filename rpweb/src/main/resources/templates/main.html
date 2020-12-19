@@ -70,22 +70,23 @@
     <div region="center" class="center flex-fill" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <div class="jumbotron" style="margin-left: 15px;margin-right: 15px">
             <div class="row">
-                <block th:if="${cal_flag} eq '2'">
+<!--                <block th:if="${cal_flag} eq '2'">-->
                     <img th:id="slide_thumbnail_id" th:src="${active_index} + '/0'" style="width: 700px;height: 600px">
-                </block>
+<!--                </block>-->
                 <div style="margin-left: 50px;margin-top: 20px">
                     <h1 th:text="${slide_list[active_index]}"></h1>
-                    <block th:if="${cal_flag} eq '0'">
+<!--                    <block th:if="${flag_list[active_index]} eq '0'">-->
 <!--                        <a class="btn btn-primary btn-lg" href="#" role="button">RnnPredict</a>-->
-                        <button class="btn btn-primary btn-lg" th:onclick="start([[${active_index}]])">Start</button>
-                    </block>
+                        <button th:id="start_btn_id" class="btn btn-primary btn-lg" th:onclick="start([[${active_index}]])">Start</button>
+<!--                    </block>-->
+                    <span id="foo">process: </span>
                     <div class="progress" style="margin-top: 20px">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <block th:if="${cal_flag} eq '2'" th:each="rows : ${#numbers.sequence(0,1)}">
+        <block  th:each="rows : ${#numbers.sequence(0,1)}">
             <div class="row" style="margin-top: 10px;margin-left: 15px">
                 <div class="form-inline">
                     <block th:each="cols: ${#numbers.sequence(1,5)}">
@@ -123,15 +124,27 @@
 
         var rows = 2;
         var cols = 5;
-        for (var row = 0; i < rows ; row++)
+        for (var row = 0; row < rows ; row++)
         {
             for(var col = 1; col <= cols; col++)
             {
                 var slide_patch = document.getElementById("slide_patch_" + (row * cols + col))
                 slide_patch.src = "/main/"+js_active_slide+"/" + (row * cols + col);
+                // console.log(slide_patch.src)
             }
         }
 
+        var start_btn = document.getElementById("start_btn_id");
+        // start_btn.onclick = start(js_active_slide);
+        start_btn.onclick = function (val){ return function(){start(val);}}(js_active_slide);
+        var flag_list =  [[${flag_list}]];
+        console.log(flag_list[js_active_slide])
+        if (flag_list[js_active_slide] != 0) {
+            start_btn.style.visibility = "hidden";
+        }
+        else {
+            start_btn.style.visibility = "visible";
+        }
     }
 </script>
 
