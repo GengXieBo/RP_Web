@@ -25,6 +25,15 @@ import lombok.experimental.Accessors;
 @ApiModel(value="Slide对象", description="切片表")
 public class Slide implements Serializable {
 
+    public Slide(){
+
+    }
+
+    public Slide(String path, String flag) {
+        this.path = path;
+        this.flag = flag;
+    }
+
     @ApiModelProperty(value = "切片id")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;

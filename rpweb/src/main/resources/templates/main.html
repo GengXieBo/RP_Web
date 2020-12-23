@@ -2,86 +2,89 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:transform="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.min.css">
-    <title>Title</title>
+    <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.css">
+    <title>RNNPredict-Main</title>
+    <link rel="shortcut icon" href="/static/img/favi.png">
 </head>
 <body>
-
-<div class="navbar-inverse navbar-fixed-top">
-    <div class="left-pill">
-        <svg width="36px" height="36px" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-        </svg>
-        <a class="navbar-brand" th:text="${username}"></a>
-    </div>
-    <div class="pull-right">
-        <div>
-            <a href="/logout">logout</a>
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin-left: 16px;margin-right: 20px">
+    <div class="form-inline">
+        <a class="navbar-brand disabled" href="#" th:text="${username}"></a>
+        <div class="active">
+            <a class="nav-item" href="/main">Main</a>
+        </div>
+        <div style="margin-left: 10px">
+            <a class="nav-item" href="/slides">Slides</a>
         </div>
     </div>
-</div>
 
-<div class="d-flex flex-row" style="margin-left: 10px">
-    <div region="west" class="west" style="width: 300px;">
-        <div class="upload-container">
-            <div class="upload-content">
-                <div class="single-upload">
-                    <h5>Upload Single File</h5>
-                    <form id="singleUploadForm" name="singleUploadForm">
-                        <input id="singleFileUploadInput" type="file" name="file" class="file-input" required />
-                        <button type="submit" class="primary submit-btn">Submit</button>
-                    </form>
-                    <div class="upload-response">
-                        <div id="singleFileUploadError"></div>
-                        <div id="singleFileUploadSuccess"></div>
-                    </div>
-                </div>
-                <div class="multiple-upload">
-                    <h5>Upload Multiple Files</h5>
-                    <form id="multipleUploadForm" name="multipleUploadForm">
-                        <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple required />
-                        <button type="submit" class="primary submit-btn">Submit</button>
-                    </form>
-                    <div class="upload-response">
-                        <div id="multipleFileUploadError"></div>
-                        <div id="multipleFileUploadSuccess"></div>
-                    </div>
-                </div>
+    <div class="pull-right">
+        <ul class="nav navbar-nav">
+            <li><a href="/login">Logout</a></li>
+        </ul>
+    </div>
+</div>
+<hr style="margin-left: 20px;margin-right: 20px">
+<div class="upload-container" style="margin-top: 10px;margin-left: 20px;margin-right: 20px">
+    <div class="upload-content">
+        <div class="input-group">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file_upload_id" aria-describedby="inputGroupFileAddon04">
+                <label class="custom-file-label" for="file_upload_id" id="file_label_id">Choose slides to upload</label>
+            </div>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="UploadFile()">UpLoad</button>
             </div>
         </div>
 
+        <div id="progress_info_id" style="display: none;padding-top: 3px">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <span id="percentage"></span>
+            <span id="time"></span>
+        </div>
 
-        <ul class="list-group" style="margin-top: 20px">
-            <tr  th:each="slide_name, slide_state : ${slide_list}">
+    </div>
+</div>
+
+<div class="d-flex flex-row" style="margin-left: 20px;margin-top: 20px">
+    <div region="west" class="west" style="width: 400px;">
+            <tr  th:each="slide, slide_state : ${slide_list}">
                 <block th:if="${slide_state.index != active_index}">
                     <a href="#" th:id="${slide_state.index}" class="list-group-item"
-                       th:text="${slide_name}" th:onclick="slide_click([[${slide_state.index}]])"></a>
+                       th:text="${slide.getPath()}" th:onclick="slide_click([[${slide_state.index}]], [[${slide.getFlag()}]],
+                                                                            [[${slide.getPath()}]], [[${slide_scores[slide_state.index]}]])"></a>
                 </block>
                 <block th:unless="${slide_state.index != active_index}">
                     <a href="#" th:id="${slide_state.index}" class="list-group-item active"
-                       th:text="${slide_name}" th:onclick="slide_click([[${slide_state.index}]])"></a>
+                       th:text="${slide.getPath()}" th:onclick="slide_click([[${slide_state.index}]], [[${slide.getFlag()}]],
+                                                                            [[${slide.getPath()}]], [[${slide_scores[slide_state.index]}]])"></a>
                 </block>
             </tr>
-        </ul>
     </div>
 
     <div region="center" class="center flex-fill" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
         <div class="jumbotron" style="margin-left: 15px;margin-right: 15px">
             <div class="row">
-<!--                <block th:if="${cal_flag} eq '2'">-->
-                    <img th:id="slide_thumbnail_id" th:src="${active_index} + '/0'" style="width: 700px;height: 600px">
-<!--                </block>-->
+                <div style="display: none">
+                    <img id="slide_thumbnail_id" th:src="'main/' + ${active_index} + '/0'">
+                </div>
+                <canvas id="canvas" width="800" height="800" onmouseover="mouseOver()" onmouseout="mouseOut()"
+                        onmousedown="mousedown()" onmouseup="mouseup()">
+                </canvas>
                 <div style="margin-left: 50px;margin-top: 20px">
-                    <h1 th:text="${slide_list[active_index]}"></h1>
-<!--                    <block th:if="${flag_list[active_index]} eq '0'">-->
-<!--                        <a class="btn btn-primary btn-lg" href="#" role="button">RnnPredict</a>-->
-                        <button th:id="start_btn_id" class="btn btn-primary btn-lg" th:onclick="start([[${active_index}]])">Start</button>
-<!--                    </block>-->
+                    <div class="form-inline">
+                        <h1 id="slide_path_id" th:text="${slide_list[active_index].getPath()}"></h1>
+                        <button style="margin-left: 10px" type="restore_btn" class="btn btn-primary" th:onclick="set_canvas_img()">Restore</button>
+                    </div>
+                    <button th:id="start_btn_id" class="btn btn-primary btn-lg" th:onclick="start([[${active_index}]])">Start</button>
                     <span id="foo">process: </span>
                     <div class="progress" style="margin-top: 20px">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
                     </div>
                 </div>
             </div>
@@ -91,10 +94,14 @@
                 <div class="form-inline">
                     <block th:each="cols: ${#numbers.sequence(1,5)}">
                         <div class="card" style="width: 18rem; margin-left: 10px">
-                            <img th:id="'slide_patch_' + ${rows * 5 + cols}" th:src="${active_index} + '/' + ${rows * 5 + cols}" class="card-img-top">
+                            <img th:id="'slide_patch_' + ${rows * 5 + cols}"
+                                 th:src="'main/' + ${active_index} + '/' + ${rows * 5 + cols}" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title" th:text="${scores[rows*5+cols-1]}"></h5>
-<!--                                <h5 class="card-title"> 0.93</h5>-->
+                                <h5>
+                                    <a th:id="'slide_score_' + ${rows * 5 + cols}" class="card-title" href="#"
+                                       th:text="${slide_scores[active_index][rows * 5 + cols - 1]} + '(view)'"
+                                       th:onclick="slide_patch_click([[${active_index}]], [[${rows * 5 + cols}]])"></a>
+                                </h5>
                             </div>
                         </div>
                     </block>
@@ -104,49 +111,10 @@
 
     </div>
 </div>
-<script th:src="@{~/js/upload.js}" src="../static/js/upload.js"></script>
-<script th:src="@{~/js/progress.js}" src="../static/js/progress.js"></script>
 
-<script th:line="javascript">
-
-    var js_active_slide = [[${active_index}]];
-
-    function slide_click(slide_id) {
-        var slide_item = document.getElementById(slide_id);
-        slide_item.classList.add("active")
-
-        var active_slide_item = document.getElementById(js_active_slide);
-        active_slide_item.classList.remove("active")
-        js_active_slide = slide_id;
-
-        var slide_thumbnail = document.getElementById("slide_thumbnail_id")
-        slide_thumbnail.src = "/main/"+js_active_slide+"/0";
-
-        var rows = 2;
-        var cols = 5;
-        for (var row = 0; row < rows ; row++)
-        {
-            for(var col = 1; col <= cols; col++)
-            {
-                var slide_patch = document.getElementById("slide_patch_" + (row * cols + col))
-                slide_patch.src = "/main/"+js_active_slide+"/" + (row * cols + col);
-                // console.log(slide_patch.src)
-            }
-        }
-
-        var start_btn = document.getElementById("start_btn_id");
-        // start_btn.onclick = start(js_active_slide);
-        start_btn.onclick = function (val){ return function(){start(val);}}(js_active_slide);
-        var flag_list =  [[${flag_list}]];
-        console.log(flag_list[js_active_slide])
-        if (flag_list[js_active_slide] != 0) {
-            start_btn.style.visibility = "hidden";
-        }
-        else {
-            start_btn.style.visibility = "visible";
-        }
-    }
-</script>
-
+<script th:src="@{~/js/up_load_progress.js}" src="../static/js/up_load_progress.js"></script>
+<script th:inline="javascript" th:src="@{~/js/switch_slide.js}"></script>
+<script th:src="@{~/js/mouse_listener.js}" src="../static/js/mouse_listener.js"></script>
+<script th:src="@{~/js/file_input.js}" src="../static/js/file_input.js"></script>
 </body>
 </html>

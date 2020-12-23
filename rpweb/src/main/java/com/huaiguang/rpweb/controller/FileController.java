@@ -33,7 +33,8 @@ public class FileController {
     @PostMapping("/uploadFile")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req, HttpServletResponse resp) throws SQLException {
         String path = "E:\\upload";
-        String userid = (String)req.getSession().getAttribute("userid");
+//        String userid = (String)req.getSession().getAttribute("userid");
+        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
         String fileName = fileStorageService.storeFile(file);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")

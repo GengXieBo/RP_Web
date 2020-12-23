@@ -168,70 +168,57 @@ public class SlideController {
 
     @RequestMapping(value = "/main")
     public String main(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
-        String userid = (String)req.getSession().getAttribute("userid");
-        if(userid==null)return "login";
+//        String userid = (String)req.getSession().getAttribute("userid");
+//        if(userid==null)return "login";
+        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
 
         SlideService slideService = new SlideService();
-        List<Slide> list = slideService.queryAll(userid);
+        List<Slide> slide_list = slideService.queryAll(userid);
 
-        List<String> slides = new ArrayList<>();
-        List<String> flags = new ArrayList<>();
-        for(int i=0; i<list.size(); i++){
-            slides.add("slide: "+ list.get(i).getPath());
-            flags.add(list.get(i).getFlag());
-        }
-
-        if(slides.size()==0){
-            slides.add("slide: None");
-            flags.add("0");
-        }
-
-        //获取指定切片,如果数据库中不包含切片，则随机生成一个假切片
-        Slide slide;
-        if(active_slide_index < list.size()) {
-            slide = list.get(active_slide_index);
-        }
-        else{
-            slide = new Slide();
-            slide.setPath("None");
+        if(slide_list.size()==0){
+            Slide slide = new Slide("None", "0");
             slide.setResult("None");
             slide.setId("None");
-            slide.setFlag("0");
+            slide_list.add(slide);
+
         }
-        //得到切片计算结果路径
-        String result = slide.getResult();
-        List<String> scores = new ArrayList<>();
-        if(result!=null){
-            //读取分数
-            String path = result + "model2";
-            File f = new File(path);
-            if(f.exists()){
-                File[] subfiles = f.listFiles();
-                for(int i=0; i<subfiles.length; i++){
-                    //System.out.println(subfiles[i].getName());
-                    String[] splits = subfiles[i].getName().split("_");
-                    scores.add(splits[splits.length-1]);
+
+        // iterate all slides to get scores
+        List<List<String>> slide_scores = new ArrayList<>();
+        for(Slide sl : slide_list) {
+
+            String score_path = sl.getResult();
+            List<String> scores = new ArrayList<>();
+            if(score_path != null){
+                // read grade
+                String path = score_path + "model2";
+                File f = new File(path);
+                if(f.exists()){
+                    File[] subfiles = f.listFiles();
+                    for(int i=0; i<subfiles.length; i++){
+                        String[] splits = subfiles[i].getName().split("_");
+                        String grade = splits[splits.length - 1];
+                        grade = grade.substring(0, grade.lastIndexOf(".jpg"));
+                        scores.add(grade);
+                    }
                 }
             }
-        }
 
-        //如果当前结果还没计算出来，则全部置为0
-        if(scores.size()==0){
-            for(int i=0; i<10; i++){
-                scores.add(String.valueOf(0));
+            //如果当前结果还没计算出来，则全部置为0
+            if(scores.size() == 0){
+                for(int i = 0; i < 10; i++){
+                    scores.add(String.valueOf(0));
+                }
             }
-
+            slide_scores.add(scores);
         }
 
         UserService userService = new UserService();
         User user = userService.queryById(userid);
         model.addAttribute("active_index", active_slide_index);
-        model.addAttribute("slide_list", slides);
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("scores", scores);
-        //if caculated
-
-        model.addAttribute("flag_list", flags);
+        model.addAttribute("slide_list", slide_list);
+        model.addAttribute("username", user.getUsername().toUpperCase());
+        model.addAttribute("slide_scores", slide_scores);
 
         return "main";
     }
@@ -243,7 +230,8 @@ public class SlideController {
                                            HttpServletRequest req, HttpServletResponse resp,
                                            Model model) throws Exception {
 
-        String userid = (String)req.getSession().getAttribute("userid");
+//        String userid = (String)req.getSession().getAttribute("userid");
+        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
         SlideService slideService = new SlideService();
         List<Slide> list = slideService.queryAll(userid);
         Slide slide = list.get(active_index);

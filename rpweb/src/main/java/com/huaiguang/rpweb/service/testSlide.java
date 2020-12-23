@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class testSlide {
     public static void main(String[] args) throws SQLException {
-        String JDBC_URL = "jdbc:mysql://localhost:3306/rpweb?serverTimezone=GMT%2B8";
+        String JDBC_URL = "jdbc:mysql://huaiguangcsh.f3322.net:2006/rpweb?serverTimezone=GMT%2B8";
         String JDBC_USER = "root";
         String JDBC_PASSWORD = "lx123456";
         SlideJDBC slideJDBC = new SlideJDBC(JDBC_URL, JDBC_USER, JDBC_PASSWORD);

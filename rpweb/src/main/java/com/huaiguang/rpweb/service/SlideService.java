@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class SlideService {
 
-    public String JDBC_URL = "jdbc:mysql://localhost:3306/rpweb?serverTimezone=GMT%2B8";
+    public String JDBC_URL = "jdbc:mysql://huaiguangcsh.f3322.net:2006/rpweb?serverTimezone=GMT%2B8";
     public String JDBC_USER = "gxb";
     public String JDBC_PASSWORD = "1181895140";
     SlideJDBC slideJDBC = new SlideJDBC(JDBC_URL, JDBC_USER, JDBC_PASSWORD);

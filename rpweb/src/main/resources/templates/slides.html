@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:transform="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.css">
+    <title>RNNPredict-Slides</title>
+    <link rel="shortcut icon" href="/static/img/favi.png">
+</head>
+<body>
+<div style="margin-left: 16px;margin-right: 20px">
+<div class="navbar navbar-inverse navbar-fixed-top" >
+    <div class="form-inline">
+        <a class="navbar-brand disabled" href="#" th:text="${username}"></a>
+        <div class="active">
+            <a class="nav-item" href="/main">Main</a>
+        </div>
+        <div style="margin-left: 10px">
+            <a class="nav-item" href="/slides">Slides</a>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <ul class="nav navbar-nav">
+            <li><a href="/login">Logout</a></li>
+        </ul>
+    </div>
+</div>
+<hr style="margin-left: 20px;margin-right: 20px">
+
+<table class="table table-striped">
+    <thead>
+    <th>#</th>
+    <th>Slide path</th>
+    <th>Cal result</th>
+    <th>Cal flag</th>
+    <th>Score</th>
+    <th>Time</th>
+    <th>Op</th>
+    </thead>
+    <tbody>
+    <block th:each="slide, slide_state : ${slide_list}">
+    <tr>
+        <th th:text="${slide_state.index}"></th>
+        <th th:text="${slide.getPath()}"></th>
+        <th th:text="${slide.getResult()}"></th>
+        <th th:text="${slide.getFlag()}"></th>
+        <th th:text="${slide.getScore()}"></th>
+        <th th:text="${slide.getCreateTime().toString()}"></th>
+        <th>
+            <a th:href="'/slides/'+${slide.getId()} + '/' + ${slide.getUserid()}">del</a>
+        </th>
+    </tr>
+    </block>
+    </tbody>
+
+</table>
+</div>
+</body>
+</html>
