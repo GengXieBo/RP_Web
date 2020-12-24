@@ -18,12 +18,14 @@ public class SlideJDBC extends JDBCTemplate<Slide> {
         String path = rs.getString(3);
         String result = rs.getString(4);
         String flag = rs.getString(5);
+        String score = rs.getString(6);
         Slide slide = new Slide();
         slide.setId(id);
         slide.setUserid(userid);
         slide.setPath(path);
         slide.setResult(result);
         slide.setFlag(flag);
+        slide.setScore(score);
         return slide;
     }
 

@@ -168,23 +168,25 @@ public class SlideController {
 
     @RequestMapping(value = "/main")
     public String main(Model model, HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
-//        String userid = (String)req.getSession().getAttribute("userid");
-//        if(userid==null)return "login";
-        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
+        String userid = (String)req.getSession().getAttribute("userid");
+        if(userid==null)return "login";
+//        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
 
         SlideService slideService = new SlideService();
         List<Slide> slide_list = slideService.queryAll(userid);
 
-        if(slide_list.size()==0){
-            Slide slide = new Slide("None", "0");
-            slide.setResult("None");
-            slide.setId("None");
-            slide_list.add(slide);
+        UserService userService = new UserService();
+        User user = userService.queryById(userid);
+        model.addAttribute("username", user.getUsername().toUpperCase());
 
+        if(slide_list.size()==0){
+            return "MainNoSlide";
         }
 
         // iterate all slides to get scores
         List<List<String>> slide_scores = new ArrayList<>();
+        List<String> slide_score = new ArrayList<>();
+        List<String> flag_list = new ArrayList<>();
         for(Slide sl : slide_list) {
 
             String score_path = sl.getResult();
@@ -211,14 +213,22 @@ public class SlideController {
                 }
             }
             slide_scores.add(scores);
+
+            String score = sl.getScore();
+            slide_score.add(score);
+
+            String flag = sl.getFlag();
+            flag_list.add(flag);
+
+
         }
 
-        UserService userService = new UserService();
-        User user = userService.queryById(userid);
+
         model.addAttribute("active_index", active_slide_index);
         model.addAttribute("slide_list", slide_list);
-        model.addAttribute("username", user.getUsername().toUpperCase());
         model.addAttribute("slide_scores", slide_scores);
+        model.addAttribute("slide_score", slide_score);
+        model.addAttribute("flag_list", flag_list);
 
         return "main";
     }
@@ -230,8 +240,8 @@ public class SlideController {
                                            HttpServletRequest req, HttpServletResponse resp,
                                            Model model) throws Exception {
 
-//        String userid = (String)req.getSession().getAttribute("userid");
-        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
+        String userid = (String)req.getSession().getAttribute("userid");
+//        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
         SlideService slideService = new SlideService();
         List<Slide> list = slideService.queryAll(userid);
         Slide slide = list.get(active_index);
@@ -264,5 +274,42 @@ public class SlideController {
         model.addAttribute("cal_flag", slide.getFlag());
         return new ResponseEntity<>(slide_data, headers, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/main/cal_completed/{slide_index}")
+    public void calucluteSlide(@PathVariable("slide_index") String slide_index, HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
+        String userid = (String) req.getSession().getAttribute("userid");
+        if (userid == null) resp.sendRedirect("/login");
+
+        SlideService slideService = new SlideService();
+        List<Slide> slide_list = slideService.queryAll(userid);
+
+        Slide slide = slide_list.get(Integer.valueOf(slide_index));
+        String slide_score = slide.getScore();
+        String score_path = slide.getResult();
+        StringBuilder sb = new StringBuilder();
+        if(score_path != null){
+            // read grade
+            String path = score_path + "model2";
+            File f = new File(path);
+            if(f.exists()){
+                File[] subfiles = f.listFiles();
+                for(int i=0; i<subfiles.length; i++){
+                    String[] splits = subfiles[i].getName().split("_");
+                    String grade = splits[splits.length - 1];
+                    grade = grade.substring(0, grade.lastIndexOf(".jpg"));
+                    sb.append(grade+" ");
+                }
+            }
+        }
+
+        String flag = slide.getFlag();
+
+
+        resp.addHeader("slide_score", String.valueOf(score));
+        resp.addHeader("patch_scores", sb.toString().trim());
+        resp.addHeader("flag", flag);
+
+    }
+
 }
 

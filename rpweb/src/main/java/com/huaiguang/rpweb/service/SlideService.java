@@ -4,6 +4,7 @@ import com.huaiguang.rpweb.entity.Slide;
 import com.huaiguang.rpweb.entity.User;
 import com.huaiguang.rpweb.jdbc.SlideJDBC;
 import com.huaiguang.rpweb.jdbc.UserJDBC;
+import org.apache.ibatis.jdbc.SQL;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -44,5 +45,12 @@ public class SlideService {
         slide.setScore(score);
 
         slideJDBC.updateById(sql, slide);
+    }
+
+    public void deleteSlide(String slideid) throws SQLException {
+        String sql = "DELETE FROM slide WHERE id=?";
+        Slide slide = new Slide();
+        slide.setId(slideid);
+        slideJDBC.deleteById(sql, slide);
     }
 }

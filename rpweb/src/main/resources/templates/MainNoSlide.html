@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:transform="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.css">
+    <title>RNNPredict-Main</title>
+    <link rel="shortcut icon" href="/static/img/favi.png">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" style="margin-left: 16px;margin-right: 20px">
+    <div class="form-inline">
+        <a class="navbar-brand disabled" href="#" th:text="${username}"></a>
+        <div class="active">
+            <a class="nav-item" href="/main">Main</a>
+        </div>
+        <div style="margin-left: 10px">
+            <a class="nav-item" href="/slides">Slides</a>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <ul class="nav navbar-nav">
+            <li><a href="/login">Logout</a></li>
+        </ul>
+    </div>
+</div>
+<hr style="margin-left: 20px;margin-right: 20px">
+<div class="upload-container" style="margin-top: 10px;margin-left: 20px;margin-right: 20px">
+    <div class="upload-content">
+        <div class="input-group">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file_upload_id" aria-describedby="inputGroupFileAddon04">
+                <label class="custom-file-label" for="file_upload_id" id="file_label_id">Choose slides to upload</label>
+            </div>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="UploadFile()">UpLoad</button>
+            </div>
+        </div>
+
+        <div id="progress_info_id" style="display: none;padding-top: 3px">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <span id="percentage"></span>
+            <span id="time"></span>
+        </div>
+
+    </div>
+</div>
+
+<h1 style="margin-top: 10px;margin-left: 20px;margin-right: 20px">No slides, please upload your slide.</h1>
+
+<script th:src="@{~/js/up_load_progress.js}" src="../static/js/up_load_progress.js"></script>
+<script th:src="@{~/js/file_input.js}" src="../static/js/file_input.js"></script>
+</body>
+</html>

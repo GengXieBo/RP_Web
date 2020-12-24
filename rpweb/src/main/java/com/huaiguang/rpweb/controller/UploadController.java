@@ -28,8 +28,8 @@ public class UploadController {
     @PostMapping("/upload_file")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req, HttpServletResponse resp)  {
         String path = "E:\\upload";
-//        String userid = (String)req.getSession().getAttribute("userid");
-        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
+        String userid = (String)req.getSession().getAttribute("userid");
+//        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
         Path fileStorageLocation = Paths.get("E:/upload").toAbsolutePath().normalize();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -52,9 +52,5 @@ public class UploadController {
         return null;
     }
 
-    @GetMapping("/tmp")
-    public String uploadFile(HttpServletRequest req, HttpServletResponse resp) {
-        return "tmp";
-    }
 
 }

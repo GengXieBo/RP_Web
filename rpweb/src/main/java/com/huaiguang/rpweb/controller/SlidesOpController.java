@@ -25,7 +25,7 @@ public class SlidesOpController {
 
     @GetMapping("/slides")
     public String ShowSlides(Model model, HttpServletRequest req, HttpServletResponse resp) {
-        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
+        String userid = (String)req.getSession().getAttribute("userid");
         UserService userService = new UserService();
         User user = null;
         try {
@@ -55,14 +55,15 @@ public class SlidesOpController {
         return "slides";
     }
 
-    @GetMapping(value = "/slides/{slide_id}/{user_id}")
-    public String OpSlides(@PathVariable("slide_id") String slide_id, @PathVariable("user_id") String user_id,
-                           HttpServletRequest req, HttpServletResponse resp) {
-        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
+    @GetMapping(value = "/slides/{slide_id}")
+    public String OpSlides(@PathVariable("slide_id") String slide_id,
+                           HttpServletRequest req, HttpServletResponse resp) throws SQLException {
+        String userid = (String)req.getSession().getAttribute("userid");
+        if(userid==null)return "login";
 
-        System.out.println(slide_id);
-        System.out.println(user_id);
+        SlideService slideService = new SlideService();
 
+        slideService.deleteSlide(slide_id);
         // del the slide
 
         return "redirect:/slides";

@@ -7,8 +7,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class RpwebApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
-
 }

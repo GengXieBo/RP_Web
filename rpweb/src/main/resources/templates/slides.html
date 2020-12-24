@@ -49,7 +49,7 @@
         <th th:text="${slide.getScore()}"></th>
         <th th:text="${slide.getCreateTime().toString()}"></th>
         <th>
-            <a th:href="'/slides/'+${slide.getId()} + '/' + ${slide.getUserid()}">del</a>
+            <a th:href="'/slides/'+${slide.getId()}">del</a>
         </th>
     </tr>
     </block>

@@ -24,6 +24,10 @@ import java.util.Map;
 @Controller
 public class UserController {
 
+    @GetMapping("/")
+    public String tologin() {
+        return "login";
+    }
 
     @GetMapping("/login")
     public String index() {
