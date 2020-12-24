@@ -53,7 +53,7 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest req, HttpServletResponse resp){
         req.getSession().removeAttribute("userid");
         return "login";

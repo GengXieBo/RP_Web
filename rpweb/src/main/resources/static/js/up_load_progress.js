@@ -86,7 +86,7 @@ function uploadComplete(evt) {
     // hiddenProgressInfo();
 
     // upload file success, redirect
-    window.location.href="http://localhost:8080/main";
+    window.location.href="/main";
 }
 //上传失败
 function uploadFailed(evt) {
