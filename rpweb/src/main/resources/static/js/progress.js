@@ -5,24 +5,22 @@ function ifHidderStartButton() {
     var start_btn = document.getElementById("start_btn_id");
     console.log('ifhidden', js_active_slide, slide_flags[js_active_slide]);
     if (slide_flags[js_active_slide] == '0') {
-        start_btn.style.visibility = "visible";
+        start_btn.style.display = "block";
     }
     else {
-        start_btn.style.visibility = "hidden";
+        start_btn.style.display = "none";
     }
 }
 
 function start(index) {
     cur_cal_slide_id = js_active_slide;
-
     slide_flags[js_active_slide] = '1';
     ifHidderStartButton();
+    showLoadInit();
     showCalInfo();
-    var foo = document.getElementById("foo");
-    foo.innerHTML = "init...";
     var eventSource = new EventSource("/main/compute/"+index);
-
     eventSource.addEventListener("message", function(event){
+            hidderLoadInit();
             console.log(event.data);
             if (cur_cal_slide_id == js_active_slide) {
                 showCalInfo();   
@@ -101,6 +99,7 @@ function start(index) {
     })
 
     eventSource.addEventListener("busy", function(event){
+        hidderLoadInit();
         console.log(event.data);
         document.getElementById("foo").innerHTML = event.data;
         console.log("Event Source closed");
@@ -130,6 +129,16 @@ function showCalInfo() {
 function hidderCalInfo() {
     var cal_progress = document.getElementById("cal_info");
     cal_progress.style.display = "none";
+}
+
+function showLoadInit() {
+    var load_inti = document.getElementById("init_circle_id");
+    load_inti.style.display = "block";
+}
+
+function hidderLoadInit() {
+    var load_inti = document.getElementById("init_circle_id");
+    load_inti.style.display = "none";
 }
 
 

@@ -83,6 +83,9 @@
                     <h4 id="slide_score_id" th:text="'Score:'+ ${slide_score[active_index]}"></h4>
                     <button th:id="start_btn_id" style="margin-top: 5px" class="btn btn-secondary btn-lg" th:onclick="start([[${active_index}]])">Start</button>
 <!--                    th:onclick="start([[${active_index}]])"-->
+                    <div class="spinner-border text-danger" role="status" id="init_circle_id" style="display: none;margin-top: 10px">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                     <div id="cal_info" class="form-inline" style="margin-top: 10px">
                         <div class="progress">
                             <div class="progress-bar" id="cal_progress"></div>

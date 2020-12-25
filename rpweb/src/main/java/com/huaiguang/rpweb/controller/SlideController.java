@@ -15,11 +15,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 
 /**
  * <p>
@@ -247,8 +251,12 @@ public class SlideController {
         Slide slide = list.get(active_index);
         String slide_path = null;
         String result = slide.getResult();
+        int newWidth = 1000;
+        int newHeight = 1000;
         if (slide_index == 0) {
             slide_path = result + "thumbnail\\thumbnail.jpg";
+            newWidth = 2048;
+            newHeight = 2048;
         }
         else {
             String path = result + "model2\\";
@@ -260,9 +268,14 @@ public class SlideController {
         byte[] slide_data = null;
         try {
             InputStream in = new FileInputStream(slide_path);
-            slide_data = new byte[in.available()];
-            in.read(slide_data);
-            in.close();
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            BufferedImage prevImage = ImageIO.read(in);
+            BufferedImage image = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_BGR);
+            Graphics graphics = image.createGraphics();
+            graphics.drawImage(prevImage, 0, 0, newWidth, newHeight, null);
+            ImageIO.write(image, "jpg", os);
+            slide_data = os.toByteArray();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

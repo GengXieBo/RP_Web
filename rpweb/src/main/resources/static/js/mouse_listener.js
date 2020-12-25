@@ -13,7 +13,6 @@ set_canvas_img();
 
 var scale_ratio = 1;
 
-
 function MouseWheelHandler(e) {
     console.log(e)
     var e = window.event
@@ -91,10 +90,15 @@ function set_canvas_img(img_id = "slide_thumbnail_id") {
         ctx.drawImage(img, 0, 0, CW, CH);
     } else {
         img.onload = function () {
+            console.log(img_id, "img loaded ...")
             ctx.drawImage(img, 0, 0, CW, CH);
             if (canvas.addEventListener) {
+                console.log(img_id, "img loaded ...")
                 canvas.addEventListener("mousewheel", MouseWheelHandler, false);
                 canvas.addEventListener('mousemove', MouseMoveHandler, false);
+
+                canvas.addEventListener('DOMMouseScroll', MouseWheelHandler, false);
+
             }
         }
     }
