@@ -30,6 +30,10 @@ public class UserJDBC extends JDBCTemplate<User> {
         ps.setObject(1, user.getId());
         ps.setObject(2, user.getUsername());
         ps.setObject(3, user.getPassword());
+        ps.setObject(4, user.getCompany_unit());
+        ps.setObject(5, user.getProduction_method());
+        ps.setObject(6, user.getDyeing_method());
+        ps.setObject(7, user.getScanning_method());
     }
 
     @Override

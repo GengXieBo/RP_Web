@@ -26,9 +26,10 @@ import com.huaiguang.rpweb.service.FileStorageService;
 public class UploadController {
 
     @PostMapping("/upload_file")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req, HttpServletResponse resp)  {
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String path = "E:\\upload";
         String userid = (String)req.getSession().getAttribute("userid");
+        if(userid==null)resp.sendRedirect("/login");
 //        String userid = "aa8143c63e0011ebbd85ac1f6b8ae4f9";
         Path fileStorageLocation = Paths.get("E:/upload").toAbsolutePath().normalize();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

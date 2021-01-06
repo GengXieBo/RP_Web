@@ -5,6 +5,7 @@ import com.huaiguang.rpweb.jdbc.UserJDBC;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 public class UserService {
 
@@ -32,6 +33,14 @@ public class UserService {
         List list = userJDBC.query(sql);
 
         return (User) list.get(0);
+
+    }
+
+    public void insertUser(User user) throws SQLException {
+
+        String sql = "INSERT INTO user (id, username, password, company_unit, production_method, dyeing_method, scanning_method) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        userJDBC.insert(sql, user);
+
 
     }
 }

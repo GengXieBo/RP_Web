@@ -70,7 +70,14 @@ public class SlideController {
         resp.setCharacterEncoding("UTF-8");
         //计算中设为1
         slideService.updateSlide(slide.getId(), "1", "0");
-        computeSlide(req, resp, slidepath, savepath);
+        try{
+            computeSlide(req, resp, slidepath, savepath);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            slideService.updateSlide(slide.getId(), "0", "0");
+        }
         //计算完设为2
         slideService.updateSlide(slide.getId(), "2", String.valueOf(score));
 
