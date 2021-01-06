@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <title>RNNPredict-Login</title>
+    <link rel="stylesheet" href="../webjars/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="/static/img/favi.png">
+</head>
+<body>
+
+
+<!--<div class="container" style="padding-top: 2%">-->
+<!--    <h3><a href="#">RNNPredict-Register</a></h3>-->
+<!--</div>-->
+
+<div class="container" style="margin-top: 5%;width: 30%">
+    <h3><a href="#">RNNPredict-Register</a></h3>
+    <form th:action="@{/register}" method="post">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username:</label>
+            <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password:</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Company unit:</label>
+            <input type="text" name="uint" class="form-control" id="UnitId" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Production method:</label>
+            <input type="text" name="pm" class="form-control" id="pmId" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Dyeing method:</label>
+            <input type="text" name="dm" class="form-control" id="dmId" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Scanning instrument:</label>
+            <input type="text" name="si" class="form-control" id="siId" aria-describedby="emailHelp">
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="return checkInput()">Registe</button>
+        <a style="padding-left: 2%" href="/login">Already have an account, go to login.</a>
+    </form>
+
+    <div style="padding-top: 2%">
+        <h6>PS: If the data you provide is used in our research, we will communicate with you and request authorization.</h6>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+    function checkInput() {
+        var username = document.getElementById("exampleInputEmail1");
+        if (username.value.length == 0) {
+            alert("username can not be empty");
+            return false;
+        }
+        var password = document.getElementById("exampleInputPassword1");
+        if (password.value.length == 0) {
+            alert("password can not be empty");
+            return false;
+        }
+
+        var uint = document.getElementById("UnitId");
+        if (uint.value.length == 0) {
+            alert("Company uint can not be empty");
+            return false;
+        }
+
+        var pm = document.getElementById("pmId");
+        if (pm.value.length == 0) {
+            alert("Production method can not be empty");
+            return false;
+        }
+
+        var dm = document.getElementById("dmId");
+        if (dm.value.length == 0) {
+            alert("Dyeing method can not be empty");
+            return false;
+        }
+
+        var si = document.getElementById("siId");
+        if (si.value.length == 0) {
+            alert("Scanning instrument can not be empty");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+</html>
